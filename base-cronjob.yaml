@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app: discord-comics
+  name: nancy
+  namespace: discord-comics
+spec:
+  schedule: CRON_TZ=America/New_York 0 8 * * *
+  jobTemplate:
+    metadata:
+      labels:
+        app: discord-comics
+      name: nancy
+    spec:
+      template:
+        metadata:
+          labels:
+            app: discord-comics
+          name: nancy
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - env:
+            - name: DISCORD_WEBHOOK_URL
+              value: https://discord.com/api/webhooks/862803133666426921/eL6BnLeOhrM9JmvJ8EAOALz8RSN0Uao6hY8iZAx1WBFDyYtX6utXFfDYXBVVVRRYqYyB
+            - name: RSS_URL
+              value: http://www.comicsrss.com/rss/nancy.rss
+            image: tupperward/discord-comics:latest
+            imagePullPolicy: Always
+            name: nancy
+            resources:
+              limits:
+                cpu: 50m
+                memory: 128Mi
+              requests:
+                cpu: 10m
+            

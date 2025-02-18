@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app: discord-comics
+  name: garfield-wattba
+  namespace: discord-comics
+spec:
+  schedule: CRON_TZ=America/New_York 0 8 * * *
+  jobTemplate:
+    metadata:
+      labels:
+        app: discord-comics
+      name: garfield-wattba
+    spec:
+      template:
+        metadata:
+          labels:
+            app: discord-comics
+          name: garfield-wattba
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - env:
+            - name: DISCORD_WEBHOOK_URL
+              value: https://discord.com/api/webhooks/1183245327638208542/kFaZ9UwIspuI2RDYl6doZE0jzNv44MYiJc_TopGM3HmjVEH00k63j_CKn6DOy3TReB73
+            - name: RSS_URL
+              value: http://www.comicsrss.com/rss/garfield.rss
+            image: tupperward/discord-comics:latest
+            imagePullPolicy: Always
+            name: garfield-wattba
+            resources:
+              limits:
+                cpu: 50m
+                memory: 128Mi
+              requests:
+                cpu: 10m
+            

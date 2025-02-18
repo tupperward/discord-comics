@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app: discord-comics
+  name: sally-forth
+  namespace: discord-comics
+spec:
+  schedule: CRON_TZ=America/New_York 0 8 * * *
+  jobTemplate:
+    metadata:
+      labels:
+        app: discord-comics
+      name: sally-forth
+    spec:
+      template:
+        metadata:
+          labels:
+            app: discord-comics
+          name: sally-forth
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - env:
+            - name: DISCORD_WEBHOOK_URL
+              value: https://discord.com/api/webhooks/1135958968318042132/qJ63xh9_cGIzvbOFScGyyAi_rI_e0HFmUouw6wqdQ6n9LwBf-IUZ2uZcUbGrTshEok2t
+            - name: RSS_URL
+              value: https://www.comicsrss.com/rss/sally-forth.rss
+            image: tupperward/discord-comics:latest
+            imagePullPolicy: Always
+            name: sally-forth
+            resources:
+              limits:
+                cpu: 50m
+                memory: 128Mi
+              requests:
+                cpu: 10m
+            
