@@ -3,10 +3,13 @@ kind: CronJob
 metadata:
   labels:
     app: discord-comics
-  name: sally-forth
+  name: sally-forth-wattba
   namespace: discord-comics
 spec:
-  schedule: CRON_TZ=America/New_York 0 8 * * *
+  schedule: 0 8 * * *
+  timeZone: America/New_York
+  successfulJobsHistoryLimit: 1 # Keep only 1 successful run
+  failedJobsHistoryLimit: 3     # Keep up to 3 failed runs (optional)
   jobTemplate:
     metadata:
       labels:
@@ -23,7 +26,7 @@ spec:
           containers:
           - env:
             - name: DISCORD_WEBHOOK_URL
-              value: https://discord.com/api/webhooks/1135958968318042132/qJ63xh9_cGIzvbOFScGyyAi_rI_e0HFmUouw6wqdQ6n9LwBf-IUZ2uZcUbGrTshEok2t
+              value: https://discord.com/api/webhooks/1183245327638208542/kFaZ9UwIspuI2RDYl6doZE0jzNv44MYiJc_TopGM3HmjVEH00k63j_CKn6DOy3TReB73
             - name: RSS_URL
               value: https://www.comicsrss.com/rss/sally-forth.rss
             image: tupperward/discord-comics:latest
